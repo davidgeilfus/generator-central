@@ -1,6 +1,6 @@
 # generator-central
 
-[Yeoman](http://yeoman.io) generator that scaffolds out everything needed to kick off a front-end project at [Central](http://centraldesign.be) or elsewhere.
+A [Yeoman](http://yeoman.io) generator to kick off a front-end project, at [Central](http://centraldesign.be) or elsewhere.
 
 
 ## Features
