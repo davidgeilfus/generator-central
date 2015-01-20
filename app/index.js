@@ -87,6 +87,8 @@ module.exports = yeoman.generators.Base.extend({
       this.mkdir('app/assets/stylesheets');
       this.mkdir('app/assets/javascripts');
       this.mkdir('app/assets/images');
+
+      this.template('_index.html', 'app/index.html');
     },
 
     jshint: function () {
