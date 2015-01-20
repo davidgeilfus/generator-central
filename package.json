@@ -1,0 +1,19 @@
+{
+  "name": "generator-central",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": {
+    "name": "David Geilfus",
+    "email": "davidgeilfus@gmail.com",
+    "url": "https://github.com/davidgeilfus"
+  },
+  "repository": "davidgeilfus/generator-central",
+  "dependencies": {
+    "chalk": "^0.5.0",
+    "yeoman-generator": "^0.18.0",
+    "yosay": "^0.3.0"
+  }
+}
