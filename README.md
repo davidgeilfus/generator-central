@@ -20,7 +20,7 @@ For more information, take a look at the Grunt tasks in `package.json`.
 
 - Install the generator: `npm install -g generator-central`
 - Navigate to your project directory: `cd my-project-directory`
-- Scaffold out your project: `yo central`
+- Scaffold your project: `yo central`
 - Start a preview server: `grunt serve`
 - Build a production-ready version of your project: `grunt`
 
