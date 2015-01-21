@@ -8,16 +8,11 @@
     <title><%= appname %></title>
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="styles/main.css">
-    <% if (useModernizr) { %>
-    <script src="bower_components/modernizr/modernizr.js"></script>
-    <% } %>
+    <% if (useModernizr) { %><script src="bower_components/modernizr/modernizr.js"></script><% } %>
   </head>
 
   <body>
-    <% if (useBootstrap) { %>
-    <div class="container">
-    </div>
-    <% } else { %>
-    <% } %>
+    <% if (useBootstrap) { %><div class="container">
+    </div><% } %>
   </body>
 </html>

@@ -5,11 +5,11 @@ var yosay = require('yosay');
 var chalk = require('chalk');
 
 module.exports = yeoman.generators.Base.extend({
-  initializing: function () {
+  init: function () {
     this.pkg = require('../package.json');
   },
 
-  prompting: function () {
+  askFor: function () {
     var done = this.async();
 
     // Have Yeoman greet the user
@@ -47,61 +47,90 @@ module.exports = yeoman.generators.Base.extend({
     }.bind(this));
   },
 
-  writing: {
-    git: function () {
-      this.copy('gitattributes', '.gitattributes');
-      this.copy('gitignore', '.gitignore');
-    },
+  git: function () {
+    this.fs.copy(
+      this.templatePath('gitattributes'),
+      this.destinationPath('.gitattributes')
+    );
+    this.fs.copy(
+      this.templatePath('gitignore'),
+      this.destinationPath('.gitignore')
+    );
+  },
 
-    packageJSON: function () {
-      this.template('_package.json', 'package.json');
-    },
-
-    gruntfile: function () {
-      this.template('_Gruntfile.js', 'Gruntfile.js');
-    },
-
-    bowerJSON: function () {
-      var bower = {
-        name: this._.slugify(this.appname),
-        dependencies: {}
-      };
-
-      if (this.useBootstrap) {
-        bower.dependencies['bootstrap-sass-official'] = "~3.3.3";
-      } else {
-        bower.dependencies.jquery = "~1.11.2";
+  packageJSON: function () {
+    this.fs.copyTpl(
+      this.templatePath('_package.json'),
+      this.destinationPath('package.json'),
+      {
+        appname: this.appname
       }
+    );
+  },
 
-      if (this.useModernizr) {
-        bower.dependencies.modernizr = "~2.8.3";
-      }
+  gruntfile: function () {
+    if (this.useBootstrap) {
+      this.gruntfile.insertConfig('sass', "{ dist: { files: { '': '' } } }");
 
-      this.write('bower.json', JSON.stringify(bower, null, 2));
-    },
-
-    app: function () {
-      // Copy the /app directory
-      this.directory('app', 'app');
-
-      this.mkdir('app/assets/stylesheets');
-      this.mkdir('app/assets/javascripts');
-      this.mkdir('app/assets/images');
-
-      this.template('_index.html', 'app/index.html');
-    },
-
-    jshint: function () {
-      this.copy('jshintrc', '.jshintrc');
-    },
-
-    editorconfig: function () {
-      this.copy('editorconfig', '.editorconfig');
-    },
-
-    readme: function () {
-      this.copy('_README.md', 'README.md');
+      this.gruntfile.registerTask('default', ['sass']);
     }
+  },
+
+  bowerJSON: function () {
+    var bower = {
+      name: this._.slugify(this.appname),
+      dependencies: {}
+    };
+
+    if (this.useBootstrap) {
+      bower.dependencies['bootstrap-sass-official'] = "~3.3.3";
+    } else {
+      bower.dependencies.jquery = "~1.11.2";
+    }
+
+    if (this.useModernizr) {
+      bower.dependencies.modernizr = "~2.8.3";
+    }
+
+    this.fs.writeJSON('bower.json', bower);
+  },
+
+  src: function () {
+    this.mkdir('src');
+    this.mkdir('src/assets/stylesheets');
+    this.mkdir('src/assets/javascripts');
+    this.mkdir('src/assets/images');
+
+    this.fs.copyTpl(
+      this.templatePath('_index.html'),
+      this.destinationPath('src/index.html'),
+      {
+        appname: this.appname,
+        useBootstrap: this.useBootstrap,
+        useModernizr: this.useModernizr
+      }
+    );
+  },
+
+  jshint: function () {
+    this.fs.copy(
+      this.templatePath('jshintrc'),
+      this.destinationPath('.jshintrc')
+    );
+  },
+
+  editorconfig: function () {
+    this.fs.copy(
+      this.templatePath('editorconfig'),
+      this.destinationPath('.editorconfig')
+    );
+  },
+
+  readme: function () {
+    this.fs.copy(
+      this.templatePath('_README.md'),
+      this.destinationPath('README.md')
+    );
   },
 
   install: function () {
